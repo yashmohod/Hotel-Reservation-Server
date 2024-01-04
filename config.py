@@ -1,0 +1,4 @@
+import os
+
+class Config(object):
+    SECRET_KEY = "a8af80c0f3c5a47e2d9ccd52378d53edd718e87864f987e0baf9b817fe2633cb5a9244985353b9aed4676088aedb3484d56f57a125a03fa37985a99c601ec8f7"
