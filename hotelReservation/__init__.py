@@ -22,4 +22,4 @@ with app.app_context():
     migrate = Migrate(app, db)
     api = Api(app)
     from . import admin
-    from hotelResevation.endPoints.General import accounts
+    from hotelReservation.endPoints.General import accounts

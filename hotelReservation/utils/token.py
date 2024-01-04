@@ -1,5 +1,5 @@
 import datetime
-from anzen import app
+from hotelReservation import app
 from .. import models
 import jwt
 
