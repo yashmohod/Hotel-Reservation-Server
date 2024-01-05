@@ -6,7 +6,12 @@ from werkzeug.security import generate_password_hash
 import uuid
 
        
-                
+          # one to many relationship
+# each user can be part of many organization and have a specific Positions
+Item_SubOrder = db.Table('Item_SubOrder',
+                    db.Column('SubOrder', db.Integer, db.ForeignKey('SubOrder.id')),
+                    db.Column('Item', db.Integer, db.ForeignKey('Item.id'))
+                    )      
                     
 
 # models
@@ -57,7 +62,7 @@ class Users(db.Model):
         return '<User %r>' % self.lastName+","+self.firstName
 
 class Employee(Users):
-    
+    __tablename__ = 'Employee'
     restaurant = db.Column(db.String(120), nullable=False)
     position = db.Column(db.String(120), nullable=False)
     
@@ -65,6 +70,19 @@ class Employee(Users):
         super().__init__(email, firstName, lastName, password)
         self.restaurant = restaurant
         self.position = position
+        
+class Customer(Users):
+    __tablename__ = 'Customer'
+    
+    def __init__(self, email, firstName, lastName, password):
+        super().__init__(email, firstName, lastName, password)
+
+class Admin(Users):
+    __tablename__ = 'Admin'
+    
+    def __init__(self, email, firstName, lastName, password):
+        super().__init__(email, firstName, lastName, password)
+
 
 class Restaurants(db.Model):
     __tablename__ = 'Restaurants'
@@ -103,6 +121,7 @@ class SubOrder(db.Model):
     id = db.Column(db.String(150), primary_key=True)
     order = db.Column(db.String(150), nullable=False)
     table = db.Column(db.String(150), nullable=False)
+    items = db.relationship('Item', secondary="Item_SubOrder", backref='SubOrder')
 
     def __init__(self,table,order):
         self.order = order
@@ -126,7 +145,7 @@ class Item(db.Model):
         self.id = str(uuid.uuid4())
         
 class Category(db.Model):
-    __tablename__ = 'Table'
+    __tablename__ = 'Category'
 
     id = db.Column(db.String(150), primary_key=True)
     name = db.Column(db.String(120), nullable=False)
